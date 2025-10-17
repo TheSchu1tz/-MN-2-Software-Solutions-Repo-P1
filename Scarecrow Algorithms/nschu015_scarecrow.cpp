@@ -1,5 +1,6 @@
 #include <algorithm>
 #include <iostream>
+#include <fstream>
 #include <random>
 #include <vector>
 #include <limits>
@@ -7,6 +8,7 @@
 
 using namespace std;
 
+//class for Node objects
 class Node {
 private:
     double x;
@@ -27,12 +29,12 @@ public:
     }
 };
 
-//Calculates distance between two nodes
+//calculates distance between two Nodes
 double distance(Node a, Node b) {
     return sqrt(pow((b.getX() - a.getX()),2)+pow((b.getY() - a.getY()),2));
 }
 
-//Calculates total path distance of current Node organization
+//calculates total path distance of current Node organization
 double totalDistance(vector<Node> currPath) {
     double result = 0;
     Node pad = currPath[0];
@@ -43,39 +45,46 @@ double totalDistance(vector<Node> currPath) {
     return result;
 }
 
+//randomly shuffles order, replacing shortestDistance if new shortest is generated (outputs final shortest in place of eventual .txt output with all information)
+float searchUntilEnter(){
+    
+}
+
 int main() {
+    //variable declarations
     string fileName;
-    int nodeCount = 2;
+    ifstream inputFile;
     vector<Node> Path;
+    float shortestDistance = INFINITY;
+
+    //get file name, open file, check if bad, take in all coords, count
     cout << "Enter the name of file: ";
     cin >> fileName;
-    //open file, check if bad, take in all coords, count
-    cout << "There are " << nodeCount << " nodes, computing shortest route.." << endl;
-    //begin shortest distance search
-    double shortestDistance = INFINITY;
-    //Pentagon Path, should be 5 at minimum
-    Node A(0, 0.85065);
-    Node B(0.80902, 0.26287);
-    Node C(0.5, -0.68819);
-    Node D(-0.5, -0.68819);
-    Node E(-0.80902, 0.26287);
-    Path.push_back(A);
-    Path.push_back(C);
-    Path.push_back(E);
-    Path.push_back(B);
-    Path.push_back(D);
+    inputFile.open(fileName);
+    if (!inputFile.is_open()){
+        cout << "Error" << endl;
+    }
+    float A, B;
+    while (inputFile >> A >> B){
+        Path.push_back(Node(A, B));
+    }
+    inputFile.close();
+
+    //begin outputting shortest paths
+    cout << "There are " << Path.size() << " nodes, computing shortest route.." << endl;
     cout << "   Shortest Route Discovered So Far " << endl;
-    cout << "       " << totalDistance(Path) << endl;
-    for (int i = 0; i < 10; ++i){
-        random_device rd;
-        default_random_engine rng(rd());
+
+    //Replace with function running until 'Enter' pressed
+    random_device rd;
+    default_random_engine rng(rd());
+    for (int i = 0; i < 100; ++i){
         shuffle(Path.begin() + 1, Path.end() - 1, rng);
-        if (totalDistance(Path) < shortestDistance){
-            shortestDistance = totalDistance(Path);
+        float currDistance = totalDistance(Path);
+        if (currDistance < shortestDistance){
+            shortestDistance = currDistance;
+            cout << "       " << shortestDistance << endl;
         }
-        cout << "       " << shortestDistance << endl;
     }
     
-    //
     return 0;
 }
