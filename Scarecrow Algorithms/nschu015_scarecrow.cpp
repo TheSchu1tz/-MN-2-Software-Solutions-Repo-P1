@@ -45,27 +45,41 @@ double totalDistance(vector<Node>& currPath) {
 }
 
 //randomly shuffles order, replacing shortestDistance if new shortest is generated (outputs final shortest in place of eventual .txt output with all information)
-double searchUntilEnter(vector<Node>& Path){
+double randomSearchUntilEnter(vector<Node>& Path, vector<Node>& shortestPath){
     double shortestDistance = INFINITY;
-    string inputLine;
+    shortestPath = Path;
     random_device rd;
     default_random_engine rng(rd());
     while(1){
+        //checks if user inputs 'Enter' (AKA carriage return or '\r' for getch)
         if (_kbhit()){
             char input = _getch();
             if (input == '\r'){
                 break;
             }
         }
+        //randomly shuffles inner nodes (leaving start and end same), generates current distance and shortens to one decimal place
         shuffle(Path.begin() + 1, Path.end() - 1, rng);
         double currDistance = totalDistance(Path);
         currDistance = currDistance - fmod(currDistance, 0.1);
+        //saves current shortest distance as well as node visit order (current path)
         if (currDistance < shortestDistance){
             shortestDistance = currDistance;
+            shortestPath = Path;
             cout << "       " << shortestDistance << endl;
         }
     }
+    //return shortest distance as a whole number (no decimals, so use 'ceil' AKA ceiling)
     return ceil(shortestDistance);
+}
+
+//find nearest neighbor of first node, then nearest neighbor of that node not including visited node, repeat...
+//(try to change it up occasionally, going to the second or third closest neighbor instead to vary results)
+double nearestNeighborSearchUntilEnter(vector<Node>& Path, vector<Node>& shortestPath){
+    double shortestDistance = INFINITY;
+    shortestPath = Path;
+    vector<Node> notVisited = Path;
+    //
 }
 
 int main() {
@@ -73,6 +87,7 @@ int main() {
     string fileName;
     ifstream inputFile;
     vector<Node> Path;
+    vector<Node> shortestPath;
 
     //get file name, open file, check if bad, take in all coords, count
     cout << "Enter the name of file: ";
@@ -94,7 +109,7 @@ int main() {
     cout << "First Path Order: ";
     for (int j = 0; j < Path.size(); ++j){
         if (j < Path.size() - 1){
-            cout << Path[j].getNum() << " to ";
+            cout << Path[j].getNum() << ", ";
         }
         else{
             cout << Path[j].getNum();
@@ -106,17 +121,17 @@ int main() {
     cout << "   Shortest Route Discovered So Far " << endl;
 
     //function runs until 'Enter' pressed, outputting 
-    double resultDistance = searchUntilEnter(Path);
+    double resultDistance = randomSearchUntilEnter(Path, shortestPath);
 
     cout << endl << "==========Results==========" << endl;
     cout << "Shortest Path Distance: " << resultDistance << endl;
     cout << "Shortest Path Order: ";
-    for (int j = 0; j < Path.size(); ++j){
-        if (j < Path.size() - 1){
-            cout << Path[j].getNum() << " to ";
+    for (int j = 0; j < shortestPath.size(); ++j){
+        if (j < shortestPath.size() - 1){
+            cout << shortestPath[j].getNum() << ", ";
         }
         else{
-            cout << Path[j].getNum();
+            cout << shortestPath[j].getNum();
         }
     }
     cout << endl << "Shortest Path Image: *Image here*";
