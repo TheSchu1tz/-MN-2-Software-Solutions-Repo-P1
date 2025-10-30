@@ -116,9 +116,15 @@ def WriteSolution(filepath, bestCost, bestOrder, coordinates):
     outputFile.close()
 
     # create the png output
-    plt.figure(figsize=(19.20, 10.80), dpi=100)
-    plt.axis('off')
-    
+    plt.figure(figsize=(19.20, 19.20), dpi=100)
+    plt.rcParams.update({'font.size': 22})
+    plt.title(f"Best Route Found (Distance = {bestCost} units)", fontsize=32)
+    plt.xlabel('X', fontsize=24)
+    plt.ylabel('Y', fontsize=24)
+    ax = plt.gca()
+    ax.set_aspect('equal', adjustable='box')
+    plt.draw()
+
     landingX = 0
     landingY = 0
     x = []
@@ -131,7 +137,8 @@ def WriteSolution(filepath, bestCost, bestOrder, coordinates):
             landingY = coordinates[i][1]
     plt.plot(x, y, color='blue', linewidth=2, marker='o', markersize=10)
     plt.plot(landingX, landingY, color='red', marker='o', markersize=16)
-    plt.savefig(splitFile[0] + "_solution_" + str(int(bestCost)) + ".png")
+    plt.tight_layout()
+    plt.savefig(splitFile[0] + "_solution_" + str(int(bestCost)) + ".png", dpi=100)
 
     return outputPath
 
