@@ -74,6 +74,14 @@ def CreateDistanceMatrix(coords):
         for y, coord2 in enumerate(coords):
             distance = EuclideanDistance(coord1, coord2)
             distMatrix[x,y] = distance
+
+    # Test for matrix symmetry
+    size = len(distMatrix)
+    for i in size:
+        for j in range(size, -1, -1):
+            if (distMatrix[i,j] != distMatrix[j,i]):
+                raise TypeError("Matrix not loaded correctly")
+
     return distMatrix
 
 # creates a random ordering of the coordinates
