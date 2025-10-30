@@ -5,16 +5,44 @@ import keyboard
 import os
 import matplotlib.pyplot as plt
 import time
+import sys # for error handling 
 import threading
 
 def main():
     filepath = input("Enter the name of the file: ")
+    # no file path provided error 
+    if not filepath:
+        print("Error: No file path provided.")
+        sys.exit(1)
 
-    # read the file
-    lines = ReadFile(filepath)
+    # file can't be opened error
+    if not os.path.exists(filepath):
+        print("Error: File cannot be opened")
+        sys.exit(1)
 
-    # parse the file and set up the list of coordinates
-    coords = ParseFile(lines)
+    # try to read the file and if can't throw error
+    try:
+        lines = ReadFile(filepath)
+    except Exception as e:
+        print("Error: Unable to read file")
+        sys.exit(1)
+
+    # file has less than 2 rows (improper formatting)
+    if len(lines) < 2:
+        print("Error: Improper file formatting (not 2 rows)")
+        sys.exit(1)
+
+    # try parse file, error handle, then check if the numeric values are valid, and handle that too.
+    try:
+        coords = ParseFile(lines)
+    except ValueError:
+        print("Error: File contains invalid numeric data")
+        sys.exit(1)
+
+    # more than 256 locations (nodes)
+    if len(coords) > 256:
+        print("Error: File contains more than 256 locations (nodes).")
+        sys.exit(1)
     
     # create distance matrix
     distMatrix = CreateDistanceMatrix(coords)

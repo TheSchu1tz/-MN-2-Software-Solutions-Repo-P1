@@ -88,5 +88,13 @@ int main() {
             cout << "\t\t" << bestSoFar << endl;
         }
     }
+
+    //cout << "Best route found:" << endl;
+
+    //for (int i = 0; i < N; i++) {
+        //cout << (bestTour[i] + 1) << " ";
+    //}
+    //cout << 1 << endl; // return to start
+
     return 0;
 }
