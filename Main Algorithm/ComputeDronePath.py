@@ -79,8 +79,7 @@ def CreateDistanceMatrix(coords):
     size = len(distMatrix)
     for i in range(size-1):
         for j in range(size-1, -1, -1):
-            # distMatrix[i,j] != distMatrix[j,i]
-            if (math.isclose(distMatrix[i,j], distMatrix[j,i])):
+            if (not math.isclose(distMatrix[i,j], distMatrix[j,i])):
                 raise TypeError("Matrix not loaded correctly")
 
     return distMatrix
