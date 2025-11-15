@@ -297,7 +297,7 @@ def DrawGraph(filepath, solutions):
     ax.set_aspect('equal', adjustable='box')
     plt.draw()
 
-    # graph each route
+    # graph each route and show cluster center
     colors = ["#D81B60", "#1E88E5", "#FFC107", "#004D40"]
     for i, sol in enumerate(solutions):
         full_path = sol["full_path"]
