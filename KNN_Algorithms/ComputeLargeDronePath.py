@@ -297,7 +297,7 @@ def DrawGraph(filepath, solutions):
     ax.set_aspect('equal', adjustable='box')
     plt.draw()
 
-    # graph each route
+    # graph each route and show cluster center as black star
     colors = ["#D81B60", "#1E88E5", "#FFC107", "#004D40"]
     for i, sol in enumerate(solutions):
         full_path = sol["full_path"]
@@ -305,8 +305,8 @@ def DrawGraph(filepath, solutions):
         x = [coord[0] for coord in full_path]
         y = [coord[1] for coord in full_path]
 
-        plt.plot(x, y, color=colors[i % len(colors)], linewidth=2, marker='o', markersize=10, label=f"Drone {sol['drone_num']} Path ({sol['route_length']:.1f}m)")
-        plt.plot(landing_coord[0], landing_coord[1], color=colors[i % len(colors)], marker='*', markersize=30)
+        plt.plot(x, y, color=colors[i % len(colors)], linewidth=2, marker='o', markersize=5, label=f"Drone {sol['drone_num']} Path ({sol['route_length']:.1f}m)")
+        plt.plot(landing_coord[0], landing_coord[1], color="black", marker='*', markersize=30)
     
     plt.legend()
     plt.tight_layout()
