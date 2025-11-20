@@ -1,6 +1,8 @@
 #:kivy 2.3.1
+#:import ScreenManager kivy.uix.screenmanager.ScreenManager
+#:import Screen kivy.uix.screenmanager.Screen
 ScreenManager:
+    id: sm
+    #transition: FadeTransition()
     InputScreen:
-        name: "input"
     ShipScreen:
-        name: "ship"

@@ -1,0 +1,19 @@
+#:kivy 2.3.1
+
+<InputScreen>:
+    id: input
+    BoxLayout:
+        orientation: "vertical"
+        size: root.width, root.height
+        
+        padding:50
+        spacing:20
+
+        Label:
+            font_size: 32
+            text: "Please select the manifest: "
+            color: (1, 1, 1, 1)
+
+        FileChooserListView:
+            id: filechooser
+        

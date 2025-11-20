@@ -66,7 +66,7 @@ def CreateGrid(manifest):
     grid = numpy.zeros((GRID_ROWS, GRID_COLS), dtype=Container)
     for i in range(len(manifest)):
         coord:Coordinate = manifest[i].coord
-        grid[coord.row - 1, coord.col - 1] = manifest[i]
+        grid[coord.row, coord.col] = manifest[i]
     return grid
 
 # returns array of strings read from filename
@@ -84,7 +84,7 @@ def ParseFile(lines):
         parts = line.split(", ")
         # get int representation of the coordinate [1,1]
         x, y = parts[0].strip("[]").split(",")
-        coord = Coordinate(int(x), int(y))
+        coord = Coordinate(int(x) - 1, int(y) - 1)
         # get the id "{00000}"
         weight = int(parts[1].strip("{}"))
         # get the item "NAN"
