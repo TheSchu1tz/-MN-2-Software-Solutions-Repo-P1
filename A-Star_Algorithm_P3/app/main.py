@@ -17,8 +17,8 @@ class MainApp(App):
         Builder.load_file("screens/ship/ship_screen.kv")
 
         sm = ScreenManager()
-        sm.add_widget(InputScreen(name='input'))
-        sm.add_widget(ShipScreen(name='ship'))
+        sm.add_widget(InputScreen(name='input_screen'))
+        sm.add_widget(ShipScreen(name='ship_screen'))
 
         return sm
 

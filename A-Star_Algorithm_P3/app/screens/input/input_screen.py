@@ -4,7 +4,8 @@ import kivy.properties
 from kivy.properties import ObjectProperty
 
 class InputScreen(Screen):
-    pass
+    def selected(self, filename):
+        print("Selected file: ", filename)
 
 class InputLayout(Widget):
     filepath = ObjectProperty(None)

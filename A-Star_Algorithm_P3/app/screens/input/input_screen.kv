@@ -16,4 +16,5 @@
 
         FileChooserListView:
             id: filechooser
-        
+            on_selection: input.selected(filechooser.selection)
+            on_selection: root.manager.current = "ship_screen" if filechooser.selection else "input_screen"
