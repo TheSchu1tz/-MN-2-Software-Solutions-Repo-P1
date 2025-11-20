@@ -1,28 +1,12 @@
-from collections import defaultdict
 import numpy
+from components.data_types.coordinate import Coordinate
+from components.data_types.container import Container
 
 GRID_ROWS = 8
 GRID_COLS = 12
 
 UNUSED = "UNUSED"
 NAN = "NAN"
-
-def main():
-    filepath = input("Please provide the file to solve for: ")
-    file = ReadFile(filepath)
-    manifest = ParseFile(file)
-    startGrid = CreateGrid(manifest)
-
-class Container:
-    def __init__(self, coord, weight, item):
-        self.coord = coord
-        self.weight = weight
-        self.item = item
-
-class Coordinate:
-    def __init__(self, row, col):
-        self.row = row
-        self.col = col
 
 def MoveToColumn(grid:numpy.ndarray, container:Container, newColumn:int):
     # TODO: create a copy of the grid aka node
@@ -66,10 +50,10 @@ def CheckBalance(grid:numpy.ndarray):
     sumRight = 0
     for i in range(GRID_ROWS):
         for j in range(GRID_COLS / 2):
-            leftItem = grid[i][j]
-            rightItem = grid[i][GRID_COLS / 2 + j]
-            sumLeft += leftItem[1]
-            sumRight += rightItem[1]
+            leftItem:Container = grid[i][j]
+            rightItem:Container = grid[i][GRID_COLS / 2 + j]
+            sumLeft += leftItem.weight
+            sumRight += rightItem.weight
 
     difference = abs(sumLeft - sumRight)
     limit = sumLeft + sumRight * 0.10
@@ -109,6 +93,3 @@ def ParseFile(lines):
         container = Container(coord, weight, item)
         manifest.append(container)
     return manifest
-
-if __name__ == "__main__":
-    main()
